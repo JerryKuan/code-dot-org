@@ -7,10 +7,12 @@
       0.74
     ],
     "func": "destroy",
-    "blockText": "remove {THIS}",
+    "blockText": "remove {SPRITE}",
     "args": [
-
-    ],
-    "methodCall": true
+      {
+        "name": "SPRITE",
+        "type": "Sprite"
+      }
+    ]
   }
 }
