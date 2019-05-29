@@ -1,3 +1,30 @@
 import * as spriteUtils from './spriteUtils';
+import {getStore} from '../../redux';
+import {addConsoleMessage} from '../textConsoleModule';
 
-export const commands = {};
+export const commands = {
+  comment(text) {
+    /* no-op */
+  },
+
+  hideTitleScreen() {
+    spriteUtils.title = spriteUtils.subtitle = '';
+  },
+
+  printText(text) {
+    getStore().dispatch(addConsoleMessage({text: text}));
+  },
+
+  setBackground(color) {
+    spriteUtils.background = color;
+  },
+
+  setBackgroundImage(img) {
+    spriteUtils.background = this.loadImage(img);
+  },
+
+  showTitleScreen(title, subtitle) {
+    spriteUtils.title = title || '';
+    spriteUtils.subtitle = subtitle || '';
+  }
+};

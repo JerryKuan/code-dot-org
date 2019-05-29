@@ -3,6 +3,10 @@ var nativeSpriteMap = {};
 var inputEvents = [];
 var behaviors = [];
 
+export var background;
+export var title = '';
+export var subtitle = '';
+
 export function reset() {
   spriteId = 0;
   nativeSpriteMap = {};

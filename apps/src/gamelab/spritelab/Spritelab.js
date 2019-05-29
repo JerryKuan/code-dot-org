@@ -3,11 +3,31 @@ import * as spriteUtils from './spriteUtils';
 
 var Spritelab = function() {
   this.reset = () => spriteUtils.reset();
+
+  function drawBackground() {
+    this.background(spriteUtils.background || 'white');
+    if (typeof spriteUtils.background === 'object') {
+      spriteUtils.background.resize(400, 400);
+      this.image(spriteUtils.background);
+    }
+  }
+
+  function updateTitle() {
+    this.fill('black');
+    this.textAlign(this.CENTER, this.CENTER);
+    this.textSize(50);
+    this.text(spriteUtils.title, 0, 0, 400, 200);
+    this.textSize(35);
+    this.text(spriteUtils.subtitle, 0, 200, 400, 200);
+  }
+
   this.commands = {};
 
   this.commands.executeDrawLoopAndCallbacks = function() {
     this.createEdgeSprites();
+    drawBackground.apply(this);
     this.drawSprites();
+    updateTitle.apply(this);
   };
 
   // Action commands
@@ -99,6 +119,29 @@ var Spritelab = function() {
 
   this.commands.setAnimation = function(spriteId, animation) {
     commands.setAnimation(spriteId, animation);
+  };
+
+  // World commands
+  this.commands.comment = function(text) {
+    commands.comment(text);
+  };
+
+  this.commands.hideTitleScreen = function() {
+    commands.hideTitleScreen();
+  };
+
+  this.commands.printText = function(text) {
+    commands.printText(text);
+  };
+
+  this.commands.setBackground = function(color) {
+    commands.setBackground(color);
+  };
+  this.commands.setBackgroundImage = function(img) {
+    commands.setBackgroundImage.apply(this, [img]);
+  };
+  this.commands.showTitleScreen = function(title, subtitle) {
+    commands.showTitleScreen(title, subtitle);
   };
 };
 
