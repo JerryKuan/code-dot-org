@@ -26,6 +26,7 @@ var Spritelab = function() {
   this.commands.executeDrawLoopAndCallbacks = function() {
     this.createEdgeSprites();
     drawBackground.apply(this);
+    spriteUtils.runEvents(this);
     this.drawSprites();
     updateTitle.apply(this);
   };
@@ -77,6 +78,24 @@ var Spritelab = function() {
 
   this.commands.turn = function(spriteId, n, direction) {
     commands.turn(spriteId, n, direction);
+  };
+
+  // Event commands
+  this.commands.checkTouching = function(
+    condition,
+    sprite1,
+    sprite2,
+    callback
+  ) {
+    commands.checkTouching(condition, sprite1, sprite2, callback);
+  };
+
+  this.commands.keyPressed = function(condition, key, callback) {
+    commands.keyPressed(condition, key, callback);
+  };
+
+  this.commands.spriteClicked = function(condition, spriteId, callback) {
+    commands.spriteClicked(condition, spriteId, callback);
   };
 
   // Location commands

@@ -66,6 +66,78 @@ export function deleteSprite(spriteId) {
   delete nativeSpriteMap[spriteId];
 }
 
-export function runEvents() {}
+export function addEvent(type, args, callback) {
+  inputEvents.push({type: type, args: args, callback: callback});
+}
+
+function checkEvent(inputEvent, p5Inst) {
+  let shouldEventFire = false;
+  switch (inputEvent.type) {
+    case 'whenpress':
+      return p5Inst.keyWentDown(inputEvent.args.key);
+    case 'whilepress':
+      return p5Inst.keyDown(inputEvent.args.key);
+    case 'whentouch': {
+      let sprites = singleOrGroup(inputEvent.args.sprite1);
+      let targets = singleOrGroup(inputEvent.args.sprite2);
+      let overlap = false;
+      sprites.forEach(sprite => {
+        targets.forEach(target => {
+          if (sprite.overlap(target)) {
+            overlap = true;
+          }
+        });
+      });
+      if (overlap && !inputEvent.firedOnce) {
+        shouldEventFire = true;
+        inputEvent.firedOnce = true;
+      }
+      if (!overlap) {
+        inputEvent.firedOnce = false;
+      }
+      return shouldEventFire;
+    }
+    case 'whiletouch': {
+      let sprites = singleOrGroup(inputEvent.args.sprite1);
+      let targets = singleOrGroup(inputEvent.args.sprite2);
+      sprites.forEach(sprite => {
+        targets.forEach(target => {
+          if (sprite.overlap(target)) {
+            shouldEventFire = true;
+          }
+        });
+      });
+      return shouldEventFire;
+    }
+    case 'whenclick': {
+      if (p5Inst.mouseWentDown('leftButton')) {
+        let sprites = singleOrGroup(inputEvent.args.sprite);
+        sprites.forEach(sprite => {
+          if (p5Inst.mouseIsOver(sprite)) {
+            shouldEventFire = true;
+          }
+        });
+      }
+      return shouldEventFire;
+    }
+    case 'whileclick': {
+      let sprites = singleOrGroup(inputEvent.args.sprite);
+      sprites.forEach(sprite => {
+        if (p5Inst.mousePressedOver(sprite)) {
+          shouldEventFire = true;
+        }
+      });
+      return shouldEventFire;
+    }
+  }
+}
+
+export function runEvents(p5Inst) {
+  inputEvents.forEach(inputEvent => {
+    if (checkEvent(inputEvent, p5Inst)) {
+      inputEvent.callback();
+    }
+  });
+}
 
 export function runBehaviors() {}
