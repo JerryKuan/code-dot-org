@@ -140,4 +140,36 @@ export function runEvents(p5Inst) {
   });
 }
 
-export function runBehaviors() {}
+export function addBehavior(sprite, behavior) {
+  if (sprite && behavior) {
+    let existing = behaviors.find(
+      b => b.sprite === sprite && b.name === behavior.name
+    );
+    if (!existing) {
+      behaviors.push({
+        func: behavior.func,
+        name: behavior.name,
+        sprite: sprite
+      });
+    }
+  }
+}
+
+export function removeAllBehaviors(sprite) {
+  behaviors = behaviors.filter(behavior => behavior.sprite !== sprite);
+}
+
+export function removeBehavior(sprite, behavior) {
+  if (sprite && behavior) {
+    let index = behaviors.findIndex(
+      b => b.sprite === sprite && b.name === behavior.name
+    );
+    if (index !== -1) {
+      behaviors.splice(index, 1);
+    }
+  }
+}
+
+export function runBehaviors() {
+  behaviors.forEach(behavior => behavior.func(behavior.sprite.id));
+}
