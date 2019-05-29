@@ -59,6 +59,23 @@ var Spritelab = function() {
     commands.turn(spriteId, n, direction);
   };
 
+  // Location commands
+  this.commands.locationAt = function(x, y) {
+    return commands.locationAt(x, y);
+  };
+
+  this.commands.locationMouse = function() {
+    return commands.locationMouse.apply(this);
+  };
+
+  this.commands.locationOf = function(spriteId) {
+    return commands.locationOf(spriteId);
+  };
+
+  this.commands.randomLocation = function() {
+    return commands.randomLocation();
+  };
+
   // Sprite commands
   this.commands.createNewSprite = function(name, animation, location) {
     return commands.makeSprite.apply(this, [animation, location]);
