@@ -11,13 +11,11 @@
     "args": [
       {
         "name": "SPRITE1",
-        "type": "Sprite",
-        "defer": true
+        "type": "Sprite"
       },
       {
         "name": "SPRITE2",
-        "type": "Sprite",
-        "defer": true
+        "type": "Sprite"
       }
     ],
     "eventBlock": true

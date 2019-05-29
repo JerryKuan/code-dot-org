@@ -97,7 +97,11 @@ export const commands = {
     }
     let sprites = spriteUtils.singleOrGroup(spriteId);
     let specialCases = {
+      height: sprite =>
+        (sprite.height = (sprite.animation.getHeight() * val) / 100),
       scale: sprite => (sprite.scale = val / 100),
+      width: sprite =>
+        (sprite.width = (sprite.animation.getWidth() * val) / 100),
       y: sprite => (sprite.y = 400 - val)
     };
     sprites.forEach(sprite => {
