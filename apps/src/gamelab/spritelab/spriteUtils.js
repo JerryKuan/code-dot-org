@@ -23,7 +23,10 @@ function allSpritesWithAnimation(animation) {
   let group = [];
   Object.keys(nativeSpriteMap).forEach(spriteId => {
     if (nativeSpriteMap[spriteId].getAnimationLabel() === animation) {
-      group.push(nativeSpriteMap[spriteId]);
+      let sprite = nativeSpriteMap[spriteId];
+      if (sprite) {
+        group.push(sprite);
+      }
     }
   });
   return group;
@@ -38,7 +41,9 @@ function allSpritesWithAnimation(animation) {
 export function singleOrGroup(spriteOrGroup) {
   if (typeof spriteOrGroup === 'number') {
     const sprite = nativeSpriteMap[spriteOrGroup];
-    return [sprite];
+    if (sprite) {
+      return [sprite];
+    }
   }
   if (typeof spriteOrGroup === 'string') {
     return allSpritesWithAnimation(spriteOrGroup);
@@ -83,7 +88,7 @@ function checkEvent(inputEvent, p5Inst) {
       let overlap = false;
       sprites.forEach(sprite => {
         targets.forEach(target => {
-          if (sprite.overlap(target)) {
+          if (sprite.nativeOverlap(p5Inst, target)) {
             overlap = true;
           }
         });
@@ -102,7 +107,7 @@ function checkEvent(inputEvent, p5Inst) {
       let targets = singleOrGroup(inputEvent.args.sprite2);
       sprites.forEach(sprite => {
         targets.forEach(target => {
-          if (sprite.overlap(target)) {
+          if (sprite.nativeOverlap(p5Inst, target)) {
             shouldEventFire = true;
           }
         });
@@ -134,8 +139,9 @@ function checkEvent(inputEvent, p5Inst) {
 
 export function runEvents(p5Inst) {
   inputEvents.forEach(inputEvent => {
-    if (checkEvent(inputEvent, p5Inst)) {
-      inputEvent.callback();
+    let check = checkEvent(inputEvent, p5Inst);
+    if (check && check.shouldEventFire) {
+      inputEvent.callback(check.extraArgs);
     }
   });
 }
