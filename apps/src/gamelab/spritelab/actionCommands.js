@@ -97,6 +97,7 @@ export const commands = {
     }
     let sprites = spriteUtils.singleOrGroup(spriteId);
     let specialCases = {
+      draggable: sprite => spriteUtils.setDraggable(this, sprite, val),
       height: sprite =>
         (sprite.height = (sprite.animation.getHeight() * val) / 100),
       scale: sprite => (sprite.scale = val / 100),

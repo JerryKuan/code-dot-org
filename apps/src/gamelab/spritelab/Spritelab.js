@@ -70,7 +70,7 @@ var Spritelab = function() {
   };
 
   this.commands.setProp = function(spriteId, prop, val) {
-    commands.setProp(spriteId, prop, val);
+    commands.setProp.apply(this, [spriteId, prop, val]);
   };
 
   this.commands.setTint = function(spriteId, color) {
