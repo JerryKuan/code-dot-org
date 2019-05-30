@@ -55,11 +55,12 @@ export const commands = {
   moveForward(spriteId, distance) {
     let sprites = spriteUtils.singleOrGroup(spriteId);
     sprites.forEach(sprite => {
-      if (sprite.direction) {
-        let direction = sprite.direction % 360;
-        sprite.x += distance * Math.cos((direction * Math.PI) / 180);
-        sprite.y += distance * Math.sin((direction * Math.PI) / 180);
+      if (!sprite.direction) {
+        sprite.direction = 0;
       }
+      let direction = sprite.direction % 360;
+      sprite.x += distance * Math.cos((direction * Math.PI) / 180);
+      sprite.y += distance * Math.sin((direction * Math.PI) / 180);
     });
   },
   moveInDirection(spriteId, distance, direction) {
