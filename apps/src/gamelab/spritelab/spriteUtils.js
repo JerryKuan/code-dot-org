@@ -12,6 +12,8 @@ export function reset() {
   nativeSpriteMap = {};
   inputEvents = [];
   behaviors = [];
+  background = 'white';
+  title = subtitle = '';
 }
 
 /**

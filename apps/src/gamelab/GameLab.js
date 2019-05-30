@@ -746,7 +746,7 @@ GameLab.prototype.rerunSetupCode = function() {
   }
   Sounds.getSingleton().muteURLs();
   this.gameLabP5.p5.allSprites.removeSprites();
-  delete this.gameLabP5.p5.World.background_color;
+  this.gameLabP5.spritelab.reset();
   this.JSInterpreter.deinitialize();
   this.initInterpreter(false /* attachDebugger */);
   this.onP5Setup();
