@@ -51,6 +51,10 @@ function randomColor() {
   return randColor();
 }
 
+function mouseLocation() {
+  return locationMouse();
+}
+
 function setSizes(spriteId,property,val) {
   setProp(spriteId, property, val);
 }
