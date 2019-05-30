@@ -7,7 +7,23 @@ function clickedOn(spriteId, callback) {
   spriteClicked('when', spriteId, callback);
 }
 
-function draggable() {}
+// Wrapper for addBehavior so that legacy draggable behavior works
+function addBehaviorSimple(spriteId, behavior) {
+  if (typeof behavior === 'function') {
+    setProp(spriteId, 'draggable', true);
+  } else {
+	addBehavior(spriteId, behavior);
+  }
+}
+
+// Wrapper for removeBehavior so that legacy draggable behavior works
+function removeBehaviorSimple(spriteId, behavior) {
+  if (typeof behavior === 'function') {
+    setProp(spriteId, 'draggable', false);
+  } else {
+	removeBehavior(spriteId, behavior);
+  }
+}
 
 function pointInDirection(spriteId,direction) {
     if (direction== "North") {
