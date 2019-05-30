@@ -77,11 +77,14 @@ export function addEvent(type, args, callback) {
 
 function checkEvent(inputEvent, p5Inst) {
   let shouldEventFire = false;
+  let extraArgs = {};
   switch (inputEvent.type) {
     case 'whenpress':
-      return p5Inst.keyWentDown(inputEvent.args.key);
+      shouldEventFire = p5Inst.keyWentDown(inputEvent.args.key);
+      return {shouldEventFire: shouldEventFire, extraArgs: extraArgs};
     case 'whilepress':
-      return p5Inst.keyDown(inputEvent.args.key);
+      shouldEventFire = p5Inst.keyDown(inputEvent.args.key);
+      return {shouldEventFire: shouldEventFire, extraArgs: extraArgs};
     case 'whentouch': {
       let sprites = singleOrGroup(inputEvent.args.sprite1);
       let targets = singleOrGroup(inputEvent.args.sprite2);
@@ -89,6 +92,8 @@ function checkEvent(inputEvent, p5Inst) {
       sprites.forEach(sprite => {
         targets.forEach(target => {
           if (sprite.nativeOverlap(p5Inst, target)) {
+            extraArgs.sprite = sprite.id;
+            extraArgs.target = target.id;
             overlap = true;
           }
         });
@@ -100,7 +105,7 @@ function checkEvent(inputEvent, p5Inst) {
       if (!overlap) {
         inputEvent.firedOnce = false;
       }
-      return shouldEventFire;
+      return {shouldEventFire: shouldEventFire, extraArgs: extraArgs};
     }
     case 'whiletouch': {
       let sprites = singleOrGroup(inputEvent.args.sprite1);
@@ -108,31 +113,35 @@ function checkEvent(inputEvent, p5Inst) {
       sprites.forEach(sprite => {
         targets.forEach(target => {
           if (sprite.nativeOverlap(p5Inst, target)) {
+            extraArgs.sprite = sprite.id;
+            extraArgs.target = target.id;
             shouldEventFire = true;
           }
         });
       });
-      return shouldEventFire;
+      return {shouldEventFire: shouldEventFire, extraArgs: extraArgs};
     }
     case 'whenclick': {
       if (p5Inst.mouseWentDown('leftButton')) {
         let sprites = singleOrGroup(inputEvent.args.sprite);
         sprites.forEach(sprite => {
           if (p5Inst.mouseIsOver(sprite)) {
+            extraArgs.sprite = sprite.id;
             shouldEventFire = true;
           }
         });
       }
-      return shouldEventFire;
+      return {shouldEventFire: shouldEventFire, extraArgs: extraArgs};
     }
     case 'whileclick': {
       let sprites = singleOrGroup(inputEvent.args.sprite);
       sprites.forEach(sprite => {
         if (p5Inst.mousePressedOver(sprite)) {
+          extraArgs.sprite = sprite.id;
           shouldEventFire = true;
         }
       });
-      return shouldEventFire;
+      return {shouldEventFire: shouldEventFire, extraArgs: extraArgs};
     }
   }
 }
