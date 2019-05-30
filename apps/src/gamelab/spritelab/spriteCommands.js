@@ -1,10 +1,15 @@
 import * as spriteUtils from './spriteUtils';
 
 export const commands = {
+  countByAnimation(animation) {
+    let sprites = spriteUtils.singleOrGroup(animation);
+    return sprites.length;
+  },
   destroy(spriteId) {
     let sprites = spriteUtils.singleOrGroup(spriteId);
     sprites.forEach(sprite => {
       sprite.destroy();
+      spriteUtils.removeAllBehaviors(sprite);
       spriteUtils.deleteSprite(sprite.id);
     });
   },

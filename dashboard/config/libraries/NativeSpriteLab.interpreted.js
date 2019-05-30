@@ -39,8 +39,6 @@ function setSizes(spriteId,property,val) {
   setProp(spriteId, property, val);
 }
 
-function setupSim() {}
-
 function whenDownArrow(callback) {
   keyPressed('when', 'down', callback);
 }
@@ -95,4 +93,73 @@ function xLocationOf(spriteId) {
 
 function yLocationOf(spriteId) {
   return getProp(spriteId, 'y');
+}
+
+// Setup sim
+function setupSim(
+  s1number,
+  s1costume,
+  s1speed,
+  s2number,
+  s2costume,
+  s2speed,
+  s3number,
+  s3costume,
+  s3speed
+) {
+  World.sprite1score = 0;
+  World.sprite2score = 0;
+
+  function movementBehavior(speed) {
+    return function(spriteId) {
+      if (randomNumber(0, 5) == 0) {
+        changePropBy(spriteId, 'direction', randomNumber(-25, 25));
+      }
+      moveForward(spriteId, speed);
+      if (isTouchingEdges(spriteId)) {
+        edgesDisplace(spriteId);
+        changePropBy(spriteId, 'direction', randomNumber(135, 225));
+      }
+    };
+  }
+
+  var counter_i = 0;
+  for (counter_i = 0; counter_i < s3number; counter_i++) {
+    makeNewSpriteAnon(s3costume, randomLocation());
+  }
+  setProp(s3costume, 'scale', 50);
+
+  for (counter_i = 0; counter_i < s2number; counter_i++) {
+    makeNewSpriteAnon(s2costume, randomLocation());
+  }
+  addBehaviorSimple(s2costume, new Behavior(movementBehavior(s2speed)));
+
+  for (counter_i = 0; counter_i < s1number; counter_i++) {
+    makeNewSpriteAnon(s1costume, randomLocation());
+  }
+  addBehaviorSimple(s1costume, new Behavior(movementBehavior(s1speed)));
+
+  checkTouching('when', s1costume, s3costume, function(extraArgs) {
+    destroy(extraArgs.target);
+    World.sprite1score++;
+    printText(s1costume + ' has collected ' + World.sprite1score);
+    checkSimulationEnd();
+  });
+
+  checkTouching('when', s2costume, s3costume, function(extraArgs) {
+    destroy(extraArgs.target);
+    World.sprite2score++;
+    printText(s2costume + ' has collected ' + World.sprite2score);
+    checkSimulationEnd();
+  });
+
+  function checkSimulationEnd() {
+    if (countByAnimation(s3costume) === 0) {
+      destroy(s1costume);
+      destroy(s2costume);
+      printText('The simulation has ended after ' + World.seconds + ' seconds');
+      printText(s1costume + ' has collected ' + World.sprite1score);
+      printText(s2costume + ' has collected ' + World.sprite2score);
+    }
+  }
 }

@@ -134,6 +134,10 @@ var Spritelab = function() {
   };
 
   // Sprite commands
+  this.commands.countByAnimation = function(animation) {
+    return commands.countByAnimation(animation);
+  };
+
   this.commands.createNewSprite = function(name, animation, location) {
     return commands.makeSprite.apply(this, [animation, location]);
   };
