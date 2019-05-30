@@ -23,9 +23,6 @@ export const commands = {
   },
 
   getProp(spriteId, prop) {
-    if (!spriteId) {
-      return undefined;
-    }
     let sprite = spriteUtils.singleOrGroup(spriteId)[0];
     if (prop === 'scale') {
       return sprite.scale * 100;
