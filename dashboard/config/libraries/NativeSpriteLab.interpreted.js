@@ -96,7 +96,7 @@ function whileLeftArrow(callback) {
 }
 
 function whileRightArrow(callback) {
-  keyPressed('while', 'down', callback);
+  keyPressed('while', 'right', callback);
 }
 
 function whileTouching(sprite1, sprite2, callback) {
