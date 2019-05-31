@@ -5,7 +5,11 @@ var Spritelab = function() {
   this.reset = () => spriteUtils.reset();
 
   function drawBackground() {
-    this.background(spriteUtils.background || 'white');
+    if (typeof spriteUtils.background === 'string') {
+      this.background(spriteUtils.background);
+    } else {
+      this.background('white');
+    }
     if (typeof spriteUtils.background === 'object') {
       spriteUtils.background.resize(400, 400);
       this.image(spriteUtils.background);
