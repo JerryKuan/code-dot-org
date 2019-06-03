@@ -24,14 +24,16 @@ export const commands = {
 
   getProp(spriteId, prop) {
     let sprite = spriteUtils.singleOrGroup(spriteId)[0];
-    if (prop === 'scale') {
-      return sprite.scale * 100;
-    } else if (prop === 'costume') {
-      return sprite.getAnimationLabel();
-    } else if (prop === 'y') {
-      return 400 - sprite.y;
-    } else {
-      return sprite[prop];
+    if (sprite !== undefined) {
+      if (prop === 'scale') {
+        return sprite.scale * 100;
+      } else if (prop === 'costume') {
+        return sprite.getAnimationLabel();
+      } else if (prop === 'y') {
+        return 400 - sprite.y;
+      } else {
+        return sprite[prop];
+      }
     }
   },
 
