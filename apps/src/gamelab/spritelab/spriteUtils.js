@@ -53,6 +53,32 @@ export function singleOrGroup(spriteOrGroup) {
   return [];
 }
 
+export function getAnimationsInUse() {
+  let animations = new Set();
+  Object.keys(nativeSpriteMap).forEach(spriteId => {
+    animations.add(nativeSpriteMap[spriteId].getAnimationLabel());
+  });
+  return Array.from(animations);
+}
+
+export function getBehaviorsForAnimation(animation) {
+  let numBehaviors = 0;
+  behaviors.forEach(behavior => {
+    if (behavior.sprite.getAnimationLabel() === animation) {
+      numBehaviors++;
+    }
+  });
+  return numBehaviors;
+}
+
+export function getSpriteIdsInUse() {
+  let spriteIds = [];
+  Object.keys(nativeSpriteMap).forEach(spriteId =>
+    spriteIds.push(parseInt(spriteId))
+  );
+  return spriteIds;
+}
+
 /**
  * Adds the specified sprite to the native sprite map
  * @param {Sprite} sprite
