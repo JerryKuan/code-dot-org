@@ -7,22 +7,8 @@ function clickedOn(spriteId, callback) {
   spriteClicked('when', spriteId, callback);
 }
 
-// Wrapper for addBehavior so that legacy draggable behavior works
-function addBehaviorSimple(spriteId, behavior) {
-  if (typeof behavior === 'function') {
-    setProp(spriteId, 'draggable', true);
-  } else {
-	addBehavior(spriteId, behavior);
-  }
-}
-
-// Wrapper for removeBehavior so that legacy draggable behavior works
-function removeBehaviorSimple(spriteId, behavior) {
-  if (typeof behavior === 'function') {
-    setProp(spriteId, 'draggable', false);
-  } else {
-	removeBehavior(spriteId, behavior);
-  }
+function draggable() {
+  return {func: draggableFunc(), name: 'draggable'};
 }
 
 function pointInDirection(spriteId,direction) {
@@ -44,7 +30,7 @@ function pointInDirection(spriteId,direction) {
 }
 
 function randColor() {
-  return color('hsb(' + randomNumber(0, 359) + ', 100%, 100%)').toString();
+  return color(randomNumber(0, 255), randomNumber(0, 255), randomNumber(0, 255)).toString();
 }
 
 function randomColor() {
@@ -96,7 +82,7 @@ function whileLeftArrow(callback) {
 }
 
 function whileRightArrow(callback) {
-  keyPressed('while', 'down', callback);
+  keyPressed('while', 'right', callback);
 }
 
 function whileTouching(sprite1, sprite2, callback) {

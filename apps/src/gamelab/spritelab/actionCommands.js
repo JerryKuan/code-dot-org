@@ -1,4 +1,5 @@
 import * as spriteUtils from './spriteUtils';
+import {commands as behaviorCommands} from './behaviorCommands';
 
 export const commands = {
   changePropBy(spriteId, prop, val) {
@@ -99,13 +100,25 @@ export const commands = {
     });
   },
   setProp(spriteId, prop, val) {
-    if (!val) {
+    if (val === undefined) {
       return;
     }
     let sprites = spriteUtils.singleOrGroup(spriteId);
     let specialCases = {
       direction: sprite => (sprite.direction = val % 360),
-      draggable: sprite => spriteUtils.setDraggable(this, sprite, val),
+      draggable: sprite => {
+        if (val) {
+          spriteUtils.addBehavior(sprite, {
+            func: behaviorCommands.draggableFunc(this),
+            name: 'draggable'
+          });
+        } else {
+          spriteUtils.removeBehavior(sprite, {
+            func: behaviorCommands.draggableFunc(this),
+            name: 'draggable'
+          });
+        }
+      },
       height: sprite =>
         (sprite.height = (sprite.animation.getHeight() * val) / 100),
       scale: sprite => sprite.setScale(val / 100),

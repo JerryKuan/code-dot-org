@@ -86,7 +86,7 @@ var Spritelab = function() {
   };
 
   // Behavior commands
-  this.commands.addBehavior = function(spriteId, behavior) {
+  this.commands.addBehaviorSimple = function(spriteId, behavior) {
     commands.addBehavior(spriteId, behavior);
   };
 
@@ -94,11 +94,15 @@ var Spritelab = function() {
     return commands.Behavior(callback);
   };
 
+  this.commands.draggableFunc = function(spriteId) {
+    return commands.draggableFunc(this);
+  };
+
   this.commands.removeAllBehaviors = function(spriteId) {
     commands.removeAllBehaviors(spriteId);
   };
 
-  this.commands.removeBehavior = function(spriteId, behavior) {
+  this.commands.removeBehaviorSimple = function(spriteId, behavior) {
     commands.removeBehavior(spriteId, behavior);
   };
 

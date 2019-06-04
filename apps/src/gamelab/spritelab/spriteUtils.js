@@ -99,31 +99,6 @@ export function deleteSprite(spriteId) {
   delete nativeSpriteMap[spriteId];
 }
 
-export function setDraggable(p5Inst, sprite, val) {
-  sprite.draggable = val;
-  let behaviorFunc = function(spriteId) {
-    let sprite = nativeSpriteMap[spriteId];
-    if (p5Inst.mousePressedOver(sprite) && !sprite.dragging) {
-      sprite.dragging = true;
-      sprite.xOffset = sprite.x - p5Inst.World.mouseX;
-      sprite.yOffset = sprite.y - p5Inst.World.mouseY;
-    }
-    if (sprite.dragging) {
-      sprite.x = p5Inst.World.mouseX + sprite.xOffset;
-      sprite.y = p5Inst.World.mouseY + sprite.yOffset;
-    }
-    if (p5Inst.mouseWentUp()) {
-      sprite.dragging = false;
-    }
-  };
-  let behavior = {func: behaviorFunc, name: 'draggable'};
-  if (sprite.draggable) {
-    addBehavior(sprite, behavior);
-  } else {
-    removeBehavior(sprite, behavior);
-  }
-}
-
 export function addEvent(type, args, callback) {
   inputEvents.push({type: type, args: args, callback: callback});
 }
