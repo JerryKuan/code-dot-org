@@ -158,6 +158,10 @@ var Spritelab = function() {
     return commands.getProp(spriteId, prop);
   };
 
+  this.commands.getThisSprite = function(which, extraArgs) {
+    return commands.getThisSprite(which, extraArgs);
+  };
+
   this.commands.makeNewSpriteAnon = function(animation, location) {
     commands.makeSprite.apply(this, [animation, location]);
   };

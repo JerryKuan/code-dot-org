@@ -37,6 +37,17 @@ export const commands = {
     }
   },
 
+  getThisSprite(which, extraArgs) {
+    if (extraArgs) {
+      if (which === 'this') {
+        return extraArgs.sprite;
+      }
+      if (which === 'other') {
+        return extraArgs.target;
+      }
+    }
+  },
+
   makeSprite(animation, location) {
     if (!location) {
       location = {x: 200, y: 200};
