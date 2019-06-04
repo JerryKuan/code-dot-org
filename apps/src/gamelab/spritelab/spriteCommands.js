@@ -26,7 +26,7 @@ export const commands = {
     let sprite = spriteUtils.singleOrGroup(spriteId)[0];
     if (sprite !== undefined) {
       if (prop === 'scale') {
-        return sprite.scale * 100;
+        return sprite.getScale() * 100;
       } else if (prop === 'costume') {
         return sprite.getAnimationLabel();
       } else if (prop === 'y') {
@@ -46,16 +46,25 @@ export const commands = {
     }
     var sprite = this.createSprite(location.x, location.y);
     sprite.direction = 0;
+    sprite.baseScale = 1;
+    sprite.setScale = function(scale) {
+      sprite.scale = scale * sprite.baseScale;
+    };
+    sprite.getScale = function() {
+      return sprite.scale / sprite.baseScale;
+    };
     let spriteId = spriteUtils.addSprite(sprite);
     if (animation) {
       sprite.setAnimation(animation);
-      sprite.scale =
+      sprite.scale /= sprite.baseScale;
+      sprite.baseScale =
         100 /
         Math.max(
           100,
           sprite.animation.getHeight(),
           sprite.animation.getWidth()
         );
+      sprite.scale *= sprite.baseScale;
     }
     return spriteId;
   },
@@ -64,13 +73,15 @@ export const commands = {
     let sprites = spriteUtils.singleOrGroup(spriteId);
     sprites.forEach(sprite => {
       sprite.setAnimation(animation);
-      sprite.scale =
+      sprite.scale /= sprite.baseScale;
+      sprite.baseScale =
         100 /
         Math.max(
           100,
           sprite.animation.getHeight(),
           sprite.animation.getWidth()
         );
+      sprite.scale *= sprite.baseScale;
     });
   }
 };

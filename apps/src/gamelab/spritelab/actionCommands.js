@@ -8,7 +8,12 @@ export const commands = {
     let sprites = spriteUtils.singleOrGroup(spriteId);
     let specialCases = {
       direction: sprite => (sprite.direction = (sprite.direction + val) % 360),
-      scale: sprite => (sprite.scale += val / 100),
+      scale: sprite => {
+        sprite.setScale(sprite.getScale() + val / 100);
+        if (sprite.scale < 0) {
+          sprite.scale = 0;
+        }
+      },
       y: sprite => (sprite.y -= val)
     };
     sprites.forEach(sprite => {
@@ -103,7 +108,7 @@ export const commands = {
       draggable: sprite => spriteUtils.setDraggable(this, sprite, val),
       height: sprite =>
         (sprite.height = (sprite.animation.getHeight() * val) / 100),
-      scale: sprite => (sprite.scale = val / 100),
+      scale: sprite => sprite.setScale(val / 100),
       width: sprite =>
         (sprite.width = (sprite.animation.getWidth() * val) / 100),
       y: sprite => (sprite.y = 400 - val)
